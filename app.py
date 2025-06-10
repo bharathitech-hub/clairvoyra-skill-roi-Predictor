@@ -67,4 +67,3 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Footer ---
 st.caption("🔮 Clairvoyra — Smart learning decisions powered by data.")
-❌ The environment doesn't support compiling that ver
