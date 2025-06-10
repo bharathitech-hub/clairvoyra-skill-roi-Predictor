@@ -4,72 +4,67 @@ import joblib
 import plotly.express as px
 import random
 
-# =============================
-# Clairvoyra – Skill ROI Predictor
-# =============================
-# Load pre-trained model and supporting data
-model = joblib.load("model.pkl")
-df = pd.read_csv("clairvoyra_salary_data.csv")
-model_features = joblib.load("clairvoyra_model_features.pkl")
-
-# Skill info database (manually curated for demo)
-skill_data = {
-    "Python": {"time_to_learn": 3, "bundle": ["Pandas", "SQL", "Streamlit"]},
-    "SQL": {"time_to_learn": 2, "bundle": ["Excel", "Power BI"]},
-    "JavaScript": {"time_to_learn": 2, "bundle": ["React", "Node.js"]},
-    "Java": {"time_to_learn": 3, "bundle": ["Spring", "Maven"]},
-    "Power BI": {"time_to_learn": 1.5, "bundle": ["Excel", "DAX"]},
-    "React": {"time_to_learn": 2.5, "bundle": ["JS", "Node.js"]},
-    "AWS": {"time_to_learn": 3, "bundle": ["EC2", "Lambda"]},
-    "Prompt Engineering": {"time_to_learn": 2, "bundle": ["LLMs", "LangChain"]},
-    "Cybersecurity": {"time_to_learn": 3.5, "bundle": ["Networking", "Ethical Hacking"]}
-}
-
-career_quotes = [
-    "The best way to predict your future is to create it. – Abraham Lincoln",
-    "Your skills are your superpower. Use them wisely.",
-    "Don't just work harder. Work smarter. Learn with purpose.",
-    "Big careers are built on small skill choices.",
-    "Every great journey starts with learning the right skill."
-]
-
-# =============================
-# Streamlit App UI
-# =============================
+# --- App Config ---
 st.set_page_config(page_title="Clairvoyra – Skill ROI Predictor", layout="centered")
 st.title("🔮 Clairvoyra")
 st.subheader("✨ See your future. Learn smarter. Earn stronger.")
 
-# Motivational Quote
-st.markdown(f"**💬 Tip of the Day:** _{random.choice(career_quotes)}_")
+# --- Load Model ---
+model = joblib.load("model.pkl")
 
-# Sidebar Skill Selector
-selected_skill = st.sidebar.selectbox("Select a tech skill:", list(skill_data.keys()))
+# --- Skill Info ---
+skills = {
+    "Python": {"time": 3, "bundle": ["Pandas", "SQL", "Streamlit"], "avg_salary": 10},
+    "SQL": {"time": 2, "bundle": ["Excel", "Power BI"], "avg_salary": 8},
+    "JavaScript": {"time": 2, "bundle": ["React", "Node.js"], "avg_salary": 9},
+    "Java": {"time": 3, "bundle": ["Spring", "Maven"], "avg_salary": 11},
+    "Power BI": {"time": 1.5, "bundle": ["Excel", "DAX"], "avg_salary": 7},
+    "React": {"time": 2.5, "bundle": ["JS", "Node.js"], "avg_salary": 10},
+    "AWS": {"time": 3, "bundle": ["EC2", "Lambda"], "avg_salary": 13},
+    "Prompt Engineering": {"time": 2, "bundle": ["LLMs", "LangChain"], "avg_salary": 14},
+    "Cybersecurity": {"time": 3.5, "bundle": ["Networking", "Ethical Hacking"], "avg_salary": 12}
+}
 
-# Prepare prediction
-X_input = pd.DataFrame([[selected_skill]], columns=["skill"])
-X_input_encoded = pd.get_dummies(X_input).reindex(columns=model_features, fill_value=0)
-salary_class = model.predict(X_input_encoded)[0]
+quotes = [
+    "🎯 Learn smart. Earn smarter.",
+    "📈 Your skills are your career currency.",
+    "💡 Every great career starts with one great skill.",
+    "🚀 Invest time in skills that pay off.",
+    "🧠 Data beats opinion — choose skills with ROI."
+]
 
-# ROI Calculation
-learn_time = skill_data[selected_skill]['time_to_learn']
-roi = round((int(salary_class.strip("₹L+").split("-")[-1]) if "-" in salary_class else int(salary_class.strip("₹L+"))) / learn_time, 2)
+# --- UI: Skill Selection ---
+st.markdown(f"**💬 Tip of the Day:** _{random.choice(quotes)}_")
+selected = st.selectbox("🛠️ Choose a skill to evaluate:", list(skills.keys()))
 
-# UI Outputs
-st.success(f"💰 Predicted Salary Range: {salary_class} LPA")
-st.info(f"⏱️ Estimated Learning Time for {selected_skill}: {learn_time} months")
-st.metric("📈 ROI Score (Salary ÷ Time to Learn)", f"{roi}")
+# --- Predict Salary Range ---
+df = pd.DataFrame([[selected]], columns=["skill"])
+df_encoded = pd.get_dummies(df)
+salary_range = model.predict(df_encoded)[0]
 
-st.markdown("---")
-st.markdown(f"### 💼 Recommended Skill Bundle for {selected_skill}:")
-st.markdown(", ".join([f"`{s}`" for s in skill_data[selected_skill]['bundle']]))
+# --- ROI Calculation ---
+learn_time = skills[selected]["time"]
+roi = round(int(salary_range.split("-")[-1]) / learn_time, 2)
 
-# Visualization
+# --- Output Results ---
+st.success(f"💰 Predicted Salary Range: {salary_range} LPA")
+st.info(f"⏱️ Time to Learn {selected}: {learn_time} months")
+st.metric("📈 ROI Score", roi)
+st.markdown("### 💼 Suggested Skill Bundle:")
+st.write(", ".join(f"`{s}`" for s in skills[selected]["bundle"]))
+
+# --- Visualize Salaries ---
 st.markdown("---")
 st.subheader("📊 Average Salary by Skill")
-fig = px.bar(df.sort_values(by="average_salary", ascending=False), x="skill", y="average_salary", color="average_salary", title="Skill vs Average Salary")
+chart_df = pd.DataFrame([
+    {"Skill": k, "Average Salary (LPA)": v["avg_salary"]}
+    for k, v in skills.items()
+])
+fig = px.bar(chart_df.sort_values(by="Average Salary (LPA)", ascending=False),
+             x="Skill", y="Average Salary (LPA)", color="Average Salary (LPA)",
+             title="Skill vs Average Salary")
 st.plotly_chart(fig, use_container_width=True)
 
-# Footer
-st.markdown("---")
-st.caption("Clairvoyra — built for freshers and professionals to forecast the value of learning before you invest.")
+# --- Footer ---
+st.caption("🔮 Clairvoyra — Smart learning decisions powered by data.")
+❌ The environment doesn't support compiling that ver
