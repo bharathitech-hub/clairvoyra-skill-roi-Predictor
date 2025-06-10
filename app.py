@@ -3,10 +3,10 @@ import pandas as pd
 import plotly.express as px
 import random
 
-# --- UI Setup ---
-st.set_page_config(page_title="Clairvoyra: Skill ROI Predictor", layout="centered")
+# --- App Setup ---
+st.set_page_config(page_title="Clairvoyra – Career ROI Engine", layout="centered")
 st.title("🔮 Clairvoyra")
-st.markdown("Make smarter skill investments by predicting ROI and career growth potential.")
+st.caption("Smarter Skill Decisions. Higher Career Returns.")
 
 # --- Tip of the Day ---
 quotes = [
@@ -18,42 +18,56 @@ quotes = [
 ]
 st.markdown(f"**💬 Tip of the Day:** _{random.choice(quotes)}_")
 
-# --- Skill Input ---
-skill = st.selectbox("🎓 Choose a tech skill to evaluate", [
+# --- Inputs ---
+career_stage = st.selectbox("👤 Select your current career stage:", ["Fresher", "Junior", "Mid-level", "Career Switcher"])
+location = st.selectbox("🌍 Preferred job location:", ["India", "USA", "Europe", "Remote"])
+skill = st.selectbox("🛠️ Choose a tech skill to evaluate:", [
     "Python", "SQL", "JavaScript", "Java", "Power BI", "React",
     "AWS", "Prompt Engineering", "Cybersecurity"
 ])
 
-# --- Output Simulated Features ---
+# --- Skill Data ---
 skill_info = {
-    "Python": {"learn_time": 3, "salary_range": "10-15", "bundle": ["Pandas", "SQL", "Streamlit"], "roi": 4.5},
-    "SQL": {"learn_time": 2, "salary_range": "8-12", "bundle": ["Excel", "Power BI"], "roi": 4.0},
-    "JavaScript": {"learn_time": 2, "salary_range": "9-14", "bundle": ["React", "Node.js"], "roi": 4.7},
-    "Java": {"learn_time": 3, "salary_range": "10-16", "bundle": ["Spring", "Maven"], "roi": 4.3},
-    "Power BI": {"learn_time": 1.5, "salary_range": "7-10", "bundle": ["Excel", "DAX"], "roi": 4.2},
-    "React": {"learn_time": 2.5, "salary_range": "10-15", "bundle": ["JS", "Node.js"], "roi": 4.8},
-    "AWS": {"learn_time": 3, "salary_range": "12-18", "bundle": ["EC2", "Lambda"], "roi": 5.0},
-    "Prompt Engineering": {"learn_time": 2, "salary_range": "14-20", "bundle": ["LLMs", "LangChain"], "roi": 5.5},
-    "Cybersecurity": {"learn_time": 3.5, "salary_range": "12-17", "bundle": ["Networking", "Ethical Hacking"], "roi": 4.6}
+    "Python": {"learn_time": 3, "base_salary": 12, "bundle": ["Pandas", "SQL", "Streamlit"], "roles": ["Data Analyst", "ML Engineer"]},
+    "SQL": {"learn_time": 2, "base_salary": 10, "bundle": ["Excel", "Power BI"], "roles": ["BI Analyst", "Data Engineer"]},
+    "JavaScript": {"learn_time": 2, "base_salary": 11, "bundle": ["React", "Node.js"], "roles": ["Frontend Dev"]},
+    "Java": {"learn_time": 3, "base_salary": 13, "bundle": ["Spring", "Maven"], "roles": ["Backend Dev"]},
+    "Power BI": {"learn_time": 1.5, "base_salary": 9, "bundle": ["Excel", "DAX"], "roles": ["BI Developer"]},
+    "React": {"learn_time": 2.5, "base_salary": 12, "bundle": ["JS", "Node.js"], "roles": ["Frontend Dev"]},
+    "AWS": {"learn_time": 3, "base_salary": 15, "bundle": ["EC2", "Lambda"], "roles": ["Cloud Engineer"]},
+    "Prompt Engineering": {"learn_time": 2, "base_salary": 18, "bundle": ["LLMs", "LangChain"], "roles": ["AI Specialist"]},
+    "Cybersecurity": {"learn_time": 3.5, "base_salary": 14, "bundle": ["Networking", "Ethical Hacking"], "roles": ["Security Analyst"]}
 }
 
-info = skill_info[skill]
+# --- Salary Adjustment by Region ---
+location_multiplier = {"India": 1, "USA": 2.2, "Europe": 1.8, "Remote": 1.5}
+multiplier = location_multiplier[location]
 
-st.metric("💰 Salary Potential", f"{info['salary_range']} LPA")
+# --- ROI Calculation ---
+info = skill_info[skill]
+salary = int(info["base_salary"] * multiplier)
+roi = round(salary / info["learn_time"], 2)
+
+# --- Display Outputs ---
+st.metric("💰 Salary Potential (LPA)", f"{salary} LPA")
 st.metric("⏱️ Learning Time", f"{info['learn_time']} months")
-st.metric("📈 ROI Score", info['roi'])
-st.markdown("### 📦 Suggested Skill Bundle:")
-st.write(", ".join([f"`{s}`" for s in info['bundle']]))
+st.metric("📈 ROI Score", roi)
+
+st.markdown("---")
+st.markdown("### 💼 Career Role Suggestions:")
+st.write(", ".join(f"`{r}`" for r in info["roles"]))
+
+st.markdown("### 📦 Recommended Skill Bundle:")
+st.write(", ".join(f"`{b}`" for b in info["bundle"]))
 
 # --- Visualization ---
 st.markdown("---")
-st.subheader("📊 Skill ROI Comparison")
+st.subheader("📊 Skill vs ROI")
 df = pd.DataFrame([
-    {"Skill": k, "ROI": v["roi"]} for k, v in skill_info.items()
+    {"Skill": k, "ROI": round(v["base_salary"] / v["learn_time"], 2)} for k, v in skill_info.items()
 ])
-fig = px.bar(df.sort_values(by="ROI", ascending=False), x="Skill", y="ROI", color="ROI",
-             title="Skill vs ROI Score", height=400)
+fig = px.bar(df.sort_values(by="ROI", ascending=False), x="Skill", y="ROI", color="ROI", title="Skill ROI Comparison")
 st.plotly_chart(fig, use_container_width=True)
 
 # --- Footer ---
-st.caption("🔮 Clairvoyra — Helping you choose high-value skills before you commit.")
+st.caption("🔮 Clairvoyra – Your smart assistant for career-defining skill decisions.")
