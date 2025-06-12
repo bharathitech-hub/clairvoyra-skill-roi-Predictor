@@ -70,7 +70,7 @@ if selected_domain:
         
 career_stage = st.selectbox("👤 Select your career stage:", ["Fresher", "Junior", "Mid-level", "Career Switcher"])
 location = st.selectbox("🌍 Preferred job location:", ["India", "USA", "Europe", "Canada", "UK", "Germany", "Australia", "Remote"])
-skill = st.selectbox("🛠️ Choose a tech skill to evaluate:", sorted(set([s for skills in goal_skills.values() for s in skills])))
+skill = st.selectbox("🛠️ Choose a tech skill to evaluate:", sorted(set([s for skills in domain_skills.values() for s in skills])))
 skill_info = {
     "Python": {"learn_time": 3, "base_salary": 9, "bundle": ["Pandas", "SQL", "Streamlit"], "roles": ["Data Analyst", "ML Engineer"]},
     "SQL": {"learn_time": 2, "base_salary": 6, "bundle": ["Excel", "Power BI"], "roles": ["BI Analyst", "Data Engineer"]},
