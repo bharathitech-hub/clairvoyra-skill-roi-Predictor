@@ -18,20 +18,46 @@ quotes = [
 ]
 st.markdown(f"**💬 Tip of the Day:** _{random.choice(quotes)}_")
 # --- Career Goal Selection ---
-goal = st.selectbox("🎯 What's your career goal?", [
-    "Data Analyst", "Frontend Developer", "Backend Developer", "AI Engineer",
-    "Mobile App Developer", "Cloud Engineer", "Cybersecurity Specialist", "DevOps Engineer"
-])
+# --- Career Goal Selection ---
+career_goals = [
+    "Data Analyst", "Data Scientist", "Data Engineer", "ML Engineer", "AI Engineer", "Business Analyst", "BI Developer", "Cloud Engineer", "Cybersecurity Specialist", "DevOps Engineer",
+    "Frontend Developer", "Backend Developer", "Full Stack Developer", "Mobile App Developer", "Game Developer", "Web Developer", "UI/UX Designer", "Product Manager", "QA Engineer", "Systems Engineer",
+    "Database Administrator", "Network Engineer", "IT Support Specialist", "Technical Writer", "Site Reliability Engineer", "Blockchain Developer", "IoT Engineer", "Embedded Systems Engineer", "AR/VR Developer", "Digital Marketing Analyst"
+]
+
+goal = st.selectbox("🎯 What's your career goal?", career_goals)
 
 goal_skills = {
     "Data Analyst": ["Python", "SQL", "Power BI"],
+    "Data Scientist": ["Python", "Pandas", "Scikit-learn"],
+    "Data Engineer": ["SQL", "Spark", "Airflow"],
+    "ML Engineer": ["Python", "TensorFlow", "MLOps"],
+    "AI Engineer": ["Python", "Prompt Engineering", "LangChain"],
+    "Business Analyst": ["Excel", "Power BI", "SQL"],
+    "BI Developer": ["Tableau", "SQL", "Power BI"],
+    "Cloud Engineer": ["AWS", "Terraform", "Docker"],
+    "Cybersecurity Specialist": ["Linux", "Cybersecurity", "Networking"],
+    "DevOps Engineer": ["Git", "CI/CD", "Docker"],
     "Frontend Developer": ["HTML & CSS", "JavaScript", "React"],
     "Backend Developer": ["Java", "Node.js", "Django"],
-    "AI Engineer": ["Python", "Prompt Engineering", "Django"],
+    "Full Stack Developer": ["JavaScript", "Node.js", "React"],
     "Mobile App Developer": ["Flutter", "Dart", "Firebase"],
-    "Cloud Engineer": ["AWS", "Docker", "Kubernetes"],
-    "Cybersecurity Specialist": ["Linux", "Cybersecurity", "Networking"],
-    "DevOps Engineer": ["Git", "CI/CD", "Docker"]
+    "Game Developer": ["Unity", "C#", "Game Design"],
+    "Web Developer": ["HTML & CSS", "JavaScript", "Bootstrap"],
+    "UI/UX Designer": ["Figma", "Adobe XD", "User Research"],
+    "Product Manager": ["Jira", "Scrum", "Figma"],
+    "QA Engineer": ["Selenium", "Postman", "Manual Testing"],
+    "Systems Engineer": ["Linux", "Networking", "Bash"],
+    "Database Administrator": ["SQL", "Oracle", "Backup & Recovery"],
+    "Network Engineer": ["Cisco", "Networking", "Firewall Config"],
+    "IT Support Specialist": ["Windows", "Helpdesk", "Troubleshooting"],
+    "Technical Writer": ["Markdown", "Documentation", "Git"],
+    "Site Reliability Engineer": ["Monitoring", "CI/CD", "Scripting"],
+    "Blockchain Developer": ["Solidity", "Ethereum", "Web3"],
+    "IoT Engineer": ["MQTT", "Raspberry Pi", "C"],
+    "Embedded Systems Engineer": ["C", "C++", "Microcontrollers"],
+    "AR/VR Developer": ["Unity", "3D Modeling", "C#"],
+    "Digital Marketing Analyst": ["SEO", "Google Ads", "Analytics"]
 }
 
 st.markdown("### 🧭 Suggested Skills for Your Goal:")
