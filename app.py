@@ -27,7 +27,7 @@ career_goals = [
 
 goal = st.selectbox("🎯 What's your career goal?", career_goals)
 
-goal_skills = {
+domain_skills = {
     "Data Analyst": ["Python", "SQL", "Power BI"],
     "Data Scientist": ["Python", "Pandas", "Scikit-learn"],
     "Data Engineer": ["SQL", "Spark", "Airflow"],
