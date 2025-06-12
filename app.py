@@ -101,13 +101,17 @@ stage_adjustment = {"Fresher": 0.8, "Junior": 1.0, "Mid-level": 1.2, "Career Swi
 multiplier = location_multiplier[location] * stage_adjustment[career_stage]
 
 info = skill_info[skill]
-salary = int(info["base_salary"] * multiplier)
-roi = round(salary / info["learn_time"], 2)
-weeks = int(info["learn_time"] * 4)
-
-st.metric("💰 Salary Potential (LPA)", f"{salary} LPA")
-st.metric("⏱️ Learning Time", f"{info['learn_time']} months")
-st.metric("📈 ROI Score", roi)
+if skill in skill_info:
+    info = skill_info[skill]
+    salary = int(info["base_salary"] * multiplier)
+    roi = round(salary / info["learn_time"], 2)
+    weeks = int(info["learn_time"] * 4)
+    st.markdown(f"### 📊 Skill ROI Analysis for `{skill}`")
+    st.write(f"💰 Estimated Salary: ₹{salary:,}")
+    st.write(f"⏳ Learning Time: {weeks} weeks")
+    st.write(f"📈 ROI (Salary / Learning Time): {roi}")
+else:
+    st.error(f"Skill `{skill}` not found in skill_info. Please add it.")
 
 # Verdict
 if roi >= 6:
