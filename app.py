@@ -60,9 +60,14 @@ goal_skills = {
     "Digital Marketing Analyst": ["SEO", "Google Ads", "Analytics"]
 }
 
-st.markdown("### 🧭 Suggested Skills for Your Goal:")
-st.write(", ".join(f"`{s}`" for s in goal_skills[goal]))
+selected_domain = st.selectbox("🌐 Select a domain to discover relevant skills:", sorted(domain_skills.keys()))
 
+if selected_domain:
+    skills = domain_skills[selected_domain]
+    st.markdown(f"### 🚀 Recommended Skills for **{selected_domain}**:")
+    for s in skills:
+        st.markdown(f"- 🔧 **{s}**")
+        
 career_stage = st.selectbox("👤 Select your career stage:", ["Fresher", "Junior", "Mid-level", "Career Switcher"])
 location = st.selectbox("🌍 Preferred job location:", ["India", "USA", "Europe", "Canada", "UK", "Germany", "Australia", "Remote"])
 skill = st.selectbox("🛠️ Choose a tech skill to evaluate:", sorted(set([s for skills in goal_skills.values() for s in skills])))
