@@ -205,7 +205,8 @@ skill_info = {
      "Visualization": {"learn_time": 1.5, "base_salary": 6, "bundle": ["Tableau", "Power BI"], "roles": ["BI Developer"]},
      "Visualforce": {"learn_time": 1.5, "base_salary": 7, "bundle": ["Salesforce", "Apex"], "roles": ["Salesforce Developer"]},
      "Windows Admin": {"learn_time": 1.5, "base_salary": 5, "bundle": ["Active Directory", "Troubleshooting"], "roles": ["IT Support Specialist"]},
-     "Zapier": {"learn_time": 1, "base_salary": 4, "bundle": ["No-Code", "Automation"], "roles": ["No-Code Developer"]}
+     "Zapier": {"learn_time": 1, "base_salary": 4, "bundle": ["No-Code", "Automation"], "roles": ["No-Code Developer"]},
+    "Google Analytics": {"learn_time": 1.5, "base_salary": 5, "bundle": ["SEO", "Google Ads"], "roles": ["Digital Marketing Analyst"]},
 
 }
 
