@@ -64,7 +64,8 @@ Clairvoyra solves this by offering personalized skill-to-role intelligence, help
 
 ##  Live Demo
 
-https://clairvoyra-skill-roi-app-czpwemukvnezw2vfbu5i2w.streamlit.app/
+https://clairvoyra-skill-roi-predictor.onrender.com/
+
 
 
 ---
